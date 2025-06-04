@@ -1,0 +1,30 @@
+{
+  "type": "trino",
+  "tagUpdateTime": 12345,
+  "description": "Trino service for development",
+  "name": "trinoDev",
+  "policyVersion": 12345,
+  "policyUpdateTime": 12345,
+  "displayName": "trinoDev",
+  "tagVersion": 12345,
+  "configs": {
+    "username": "admin",
+    "password": "admin",
+    "jdbc.driverClassName": "io.trino.jdbc.TrinoDriver",
+    "jdbc.url": "jdbc:trino://trino:8080",
+    "ranger.plugin.trino.service.name": "trinoDev",
+    "ranger.plugin.trino.policy.rest.url": "http://ranger:6080",
+    "ranger.plugin.trino.policy.source.impl": "org.apache.ranger.admin.client.RangerAdminRESTClient",
+    "ranger.plugin.trino.policy.rest.ssl.config.file": "/etc/ranger/trino/policycache/trino-policy-cache.json",
+    "ranger.plugin.trino.policy.pollIntervalMs": "30000",
+    "ranger.plugin.trino.policy.cache.dir": "/etc/ranger/trino/policycache"
+  },
+  "guid": "200",
+  "isEnabled": true,
+  "createTime": 12345,
+  "createdBy": "admin",
+  "updatedBy": "admin",
+  "id": 12346,
+  "updateTime": 12345,
+  "version": 12345
+}

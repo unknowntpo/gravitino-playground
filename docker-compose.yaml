@@ -79,7 +79,7 @@ services:
       start_period: 20s
 
   trino:
-    image: apache/gravitino-playground:trino-435-gravitino-0.9.0-incubating
+    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin
     ports:
       - "18080:8080"
     container_name: playground-trino
@@ -134,7 +134,7 @@ services:
     volumes:
       - ./init/mysql:/docker-entrypoint-initdb.d/
       - ./healthcheck:/tmp/healthcheck
-    command: 
+    command:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci

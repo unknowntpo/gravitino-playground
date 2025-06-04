@@ -33,6 +33,7 @@ done
 
 curl -iv -u admin:rangerR0cks! -d @/tmp/ranger/hiveDev.json -H "Content-Type: application/json" -X POST http://127.0.0.1:6080/service/public/v2/api/service
 curl -iv -u admin:rangerR0cks! -d @/tmp/ranger/hdfsDev.json -H "Content-Type: application/json" -X POST http://127.0.0.1:6080/service/public/v2/api/service
+curl -iv -u admin:rangerR0cks! -d @/tmp/ranger/trinoDev.json -H "Content-Type: application/json" -X POST http://127.0.0.1:6080/service/public/v2/api/service
 curl -iv -u admin:rangerR0cks! -H "Content-Type: application/json" -X DELETE http://localhost:6080/service/plugins/policies/1
 curl -iv -u admin:rangerR0cks! -H "Content-Type: application/json" -X DELETE http://localhost:6080/service/plugins/policies/3
 curl -iv -u admin:rangerR0cks! -H "Content-Type: application/json" -X DELETE http://localhost:6080/service/plugins/policies/4
