@@ -17,6 +17,16 @@
 # under the License.
 #
 
+sed -i -E 's/tail -f \/dev\/null/\s/g' /usr/local/sbin/start.sh
+
+# Configure the trino plugin
+rm -f ${RANGER_TRINO_PLUGIN_HOME}/install.properties
+ln -s /tmp/trino/install.properties ${RANGER_TRINO_PLUGIN_HOME}/install.properties
+rm -f ${RANGER_TRINO_PLUGIN_HOME}/enable-trino-plugin.sh
+ln -s /tmp/trino/enable-trino-plugin.sh ${RANGER_TRINO_PLUGIN_HOME}/enable-trino-plugin.sh
+rm -f ${RANGER_TRINO_PLUGIN_HOME}/trino-ranger-plugin-logback.xml
+ln -s /tmp/trino/trino-ranger-plugin-logback.xml ${RANGER_TRINO_PLUGIN_HOME}/trino-ranger-plugin-logback.xml
+
 sh /tmp/common/init_metalake_catalog.sh
 
 /etc/trino/update-trino-conf.sh
@@ -24,19 +34,19 @@ nohup /usr/lib/trino/bin/run-trino &
 
 counter=0
 while [ $counter -le 240 ]; do
-  counter=$((counter + 1))
-  trino_ready=$(trino --execute "SHOW CATALOGS LIKE 'catalog_hive'" | grep "catalog_hive" | wc -l)
-  if [ "$trino_ready" -eq 0 ]; then
-    echo "Wait for the initialization of services"
-    sleep 5
-  else
-    trino --execute "create schema catalog_hive.sales with (location = 'hdfs://hive:9000/user/hive/warehouse/sales.db');"
-    echo "Import the data of the Hive warehouse"
-    trino </tmp/trino/init.sql
-    echo "Import ends"
+	counter=$((counter + 1))
+	trino_ready=$(trino --execute "SHOW CATALOGS LIKE 'catalog_hive'" | grep "catalog_hive" | wc -l)
+	if [ "$trino_ready" -eq 0 ]; then
+		echo "Wait for the initialization of services"
+		sleep 5
+	else
+		trino --execute "create schema catalog_hive.sales with (location = 'hdfs://hive:9000/user/hive/warehouse/sales.db');"
+		echo "Import the data of the Hive warehouse"
+		trino </tmp/trino/init.sql
+		echo "Import ends"
 
-    # persist the container
-    tail -f /dev/null
-  fi
+		# persist the container
+		tail -f /dev/null
+	fi
 done
 exit 1

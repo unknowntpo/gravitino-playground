@@ -24,8 +24,12 @@ services:
       - RANGER_SERVER_URL=http://ranger:6080
       - RANGER_HIVE_REPOSITORY_NAME=hiveDev
       - RANGER_HDFS_REPOSITORY_NAME=hdfsDev
+  trino:
+    environment:
+      # Use env from docker-compose.yaml with env for trino
+      - RANGER_SERVER_URL=http://ranger:6080
+      - RANGER_TRINO_REPOSITORY_NAME=trinoDev
 
   jupyter:
     environment:
       - RANGER_ENABLE=true
-    
