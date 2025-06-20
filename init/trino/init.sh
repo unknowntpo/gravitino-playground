@@ -17,36 +17,54 @@
 # under the License.
 #
 
-sed -i -E 's/tail -f \/dev\/null/\s/g' /usr/local/sbin/start.sh
+# sed -i -E 's/tail -f \/dev\/null/\s/g' /usr/local/sbin/start.sh
 
 # Configure the trino plugin
+# Ref: https://trino.io/docs/current/security/ranger-access-control.html#ranger-trino-audit-xml
 rm -f ${RANGER_TRINO_PLUGIN_HOME}/install.properties
 ln -s /tmp/trino/install.properties ${RANGER_TRINO_PLUGIN_HOME}/install.properties
 rm -f ${RANGER_TRINO_PLUGIN_HOME}/enable-trino-plugin.sh
 ln -s /tmp/trino/enable-trino-plugin.sh ${RANGER_TRINO_PLUGIN_HOME}/enable-trino-plugin.sh
 rm -f ${RANGER_TRINO_PLUGIN_HOME}/trino-ranger-plugin-logback.xml
 ln -s /tmp/trino/trino-ranger-plugin-logback.xml ${RANGER_TRINO_PLUGIN_HOME}/trino-ranger-plugin-logback.xml
+rm -f ${RANGER_TRINO_PLUGIN_HOME}/ranger-trino-security.xml
+ln -s /tmp/trino/ranger-trino-security.xml ${RANGER_TRINO_PLUGIN_HOME}/ranger-trino-security.xml
+rm -f ${RANGER_TRINO_PLUGIN_HOME}/ranger-trino-audit.xml
+ln -s /tmp/trino/ranger-trino-audit.xml ${RANGER_TRINO_PLUGIN_HOME}/ranger-trino-audit.xml
+rm -f /etc/access-control.properties
+ln -s /tmp/trino/access-control.properties /etc/access-control.properties
+rm -f /etc/trino/access-control.properties
+ln -s /tmp/trino/access-control.properties /etc/trino/access-control.properties
 
-sh /tmp/common/init_metalake_catalog.sh
+# Remove gravitino plugin, because it's not currently support ranger stuff
+rm -rf /usr/lib/trino/plugin/gravitino
+
+echo "Enabling the trino plugin ..."
+${RANGER_TRINO_PLUGIN_HOME}/enable-trino-plugin.sh
+echo "Done."
+
+# sh /tmp/common/init_metalake_catalog.sh
 
 /etc/trino/update-trino-conf.sh
 nohup /usr/lib/trino/bin/run-trino &
-
-counter=0
-while [ $counter -le 240 ]; do
-	counter=$((counter + 1))
-	trino_ready=$(trino --execute "SHOW CATALOGS LIKE 'catalog_hive'" | grep "catalog_hive" | wc -l)
-	if [ "$trino_ready" -eq 0 ]; then
-		echo "Wait for the initialization of services"
-		sleep 5
-	else
-		trino --execute "create schema catalog_hive.sales with (location = 'hdfs://hive:9000/user/hive/warehouse/sales.db');"
-		echo "Import the data of the Hive warehouse"
-		trino </tmp/trino/init.sql
-		echo "Import ends"
-
-		# persist the container
-		tail -f /dev/null
-	fi
-done
-exit 1
+# persist the container
+tail -f /dev/null
+#
+#counter=0
+#while [ $counter -le 240 ]; do
+#	counter=$((counter + 1))
+#	trino_ready=$(trino --execute "SHOW CATALOGS LIKE 'catalog_hive'" | grep "catalog_hive" | wc -l)
+#	if [ "$trino_ready" -eq 0 ]; then
+#		echo "Wait for the initialization of services"
+#		sleep 5
+#	else
+#		trino --execute "create schema catalog_hive.sales with (location = 'hdfs://hive:9000/user/hive/warehouse/sales.db');"
+#		echo "Import the data of the Hive warehouse"
+#		trino </tmp/trino/init.sql
+#		echo "Import ends"
+#
+#		# persist the container
+#		tail -f /dev/null
+#	fi
+#done
+#exit 1

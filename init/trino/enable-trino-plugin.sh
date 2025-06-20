@@ -770,6 +770,8 @@ if [ "${HCOMPONENT_NAME}" = "trino" ]; then
 	cp -n ${PROJ_INSTALL_DIR}/trino-ranger-plugin-logback.xml ${HCOMPONENT_CONF_DIR}/trino-ranger-plugin-logback.xml
 	logback_file=$(ls ${HCOMPONENT_CONF_DIR}/trino-ranger-plugin-logback.xml 2>/dev/null)
 
+	echo "logback_file: ${logback_file}"
+
 	if [ "${action}" = "enable" ]; then
 		controlName="ranger"
 		addOrUpdatePropertyToFile -Dlogback.configurationFile ${logback_file} ${jvm_config_file}
