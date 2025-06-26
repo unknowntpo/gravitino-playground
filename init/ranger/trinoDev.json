@@ -9,7 +9,7 @@
   "tagVersion": 12345,
   "configs": {
     "username": "admin",
-    "password": "admin",
+    "password": "rangerR0cks!",
     "jdbc.driverClassName": "io.trino.jdbc.TrinoDriver",
     "jdbc.url": "jdbc:trino://trino:8080",
     "ranger.plugin.trino.service.name": "trinoDev",
