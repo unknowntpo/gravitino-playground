@@ -1,0 +1,14 @@
+[project]
+name = "feat-ranger-trino-plugin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "apache-ranger>=0.0.12",
+    "jupyterlab>=4.4.3",
+    "polars>=1.0.0",
+    "pytest>=8.4.0",
+    "requests>=2.32.3",
+    "trino>=0.334.0",
+]
