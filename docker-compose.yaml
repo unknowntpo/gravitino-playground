@@ -38,7 +38,7 @@ services:
       start_period: 20s
 
   ranger:
-    image: apache/gravitino-playground:ranger-0.1.0
+    image: unknowntpo/gravitino-playground:ranger-ranger-trino-plugin
     ports:
       - "6080:6080"
     container_name: playground-ranger
