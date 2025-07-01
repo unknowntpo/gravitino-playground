@@ -38,7 +38,9 @@ services:
       start_period: 20s
 
   ranger:
-    image: unknowntpo/gravitino-playground:ranger-ranger-trino-plugin
+    # Custom image with ranger 2.5.0
+    # https://hub.docker.com/layers/unknowntpo/gravitino-playground/ranger-ranger-trino-plugin/images/sha256-698f47724dd651c31f82e2da4281c45837fad66b2c85b0003e8591bb1e0d1d16
+    image: unknowntpo/gravitino-playground:ranger-ranger-trino-plugin@sha256:d6ab54dbdee2f51d69f26d762a5c3c59e44fecd7f0cd50cdab560e4c3035fd1f
     ports:
       - "6080:6080"
     container_name: playground-ranger
@@ -79,7 +81,9 @@ services:
       start_period: 20s
 
   trino:
-    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin
+    # Custom image with ranger trino plugin
+    # https://hub.docker.com/layers/unknowntpo/gravitino-playground/trino-ranger-trino-plugin/images/sha256-541d4c234ccf4519bf353367f1554728b34591841b76eafa3e066360cca22885
+    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:15b0ba6dbf9bf5ad9b7e420168448270dfb45e2bbb8f0a01fc1d350c6197763b
     ports:
       - "18080:8080"
     container_name: playground-trino
