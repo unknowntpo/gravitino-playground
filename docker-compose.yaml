@@ -40,7 +40,7 @@ services:
   ranger:
     # Custom image with ranger 2.5.0
     # https://hub.docker.com/layers/unknowntpo/gravitino-playground/ranger-ranger-trino-plugin/images/sha256-698f47724dd651c31f82e2da4281c45837fad66b2c85b0003e8591bb1e0d1d16
-    image: unknowntpo/gravitino-playground:ranger-ranger-trino-plugin@sha256:d6ab54dbdee2f51d69f26d762a5c3c59e44fecd7f0cd50cdab560e4c3035fd1f
+    image: unknowntpo/gravitino-playground:ranger-ranger-trino-plugin@sha256:698f47724dd651c31f82e2da4281c45837fad66b2c85b0003e8591bb1e0d1d16
     ports:
       - "6080:6080"
     container_name: playground-ranger
@@ -63,9 +63,9 @@ services:
       - "9001:9001"
     container_name: playground-gravitino
     depends_on:
-      ranger :
+      ranger:
         condition: service_healthy
-      hive :
+      hive:
         condition: service_healthy
       mysql:
         condition: service_healthy
@@ -82,8 +82,8 @@ services:
 
   trino:
     # Custom image with ranger trino plugin
-    # https://hub.docker.com/layers/unknowntpo/gravitino-playground/trino-ranger-trino-plugin/images/sha256-541d4c234ccf4519bf353367f1554728b34591841b76eafa3e066360cca22885
-    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:15b0ba6dbf9bf5ad9b7e420168448270dfb45e2bbb8f0a01fc1d350c6197763b
+    # https://hub.docker.com/layers/unknowntpo/gravitino-playground/trino-ranger-trino-plugin/images/sha256-ced03ddd2084ad2df80aa0a1688ba3861b5b418268a25e3b233f3e53223217e6
+    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:93b3f58ac6be1968f6a2b3ef490232bcd7dc1ffaa924b6f45b334c50ae6cc46c
     ports:
       - "18080:8080"
     container_name: playground-trino
@@ -138,8 +138,7 @@ services:
     volumes:
       - ./init/mysql:/docker-entrypoint-initdb.d/
       - ./healthcheck:/tmp/healthcheck
-    command:
-      --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
@@ -214,7 +213,8 @@ services:
     volumes:
       - ./data/elasticsearch:/usr/share/elasticsearch/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
