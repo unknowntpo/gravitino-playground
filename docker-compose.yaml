@@ -83,7 +83,9 @@ services:
   trino:
     # Custom image with ranger trino plugin
     # https://hub.docker.com/layers/unknowntpo/gravitino-playground/trino-ranger-trino-plugin/images/sha256-ced03ddd2084ad2df80aa0a1688ba3861b5b418268a25e3b233f3e53223217e6
-    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:93b3f58ac6be1968f6a2b3ef490232bcd7dc1ffaa924b6f45b334c50ae6cc46c
+    # image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:93b3f58ac6be1968f6a2b3ef490232bcd7dc1ffaa924b6f45b334c50ae6cc46c
+    # Image built by Github Actions
+    image: unknowntpo/gravitino-playground:trino-ranger-trino-plugin@sha256:54bc2ee8ec82fbdbde9d66f7d5cea69cfcbeccbaed2a09c44affdf0ab4a2700b
     ports:
       - "18080:8080"
     container_name: playground-trino
